@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Hateful Meme Detector</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- font Awesome 5 -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename = 'vendor/icofont/icofont.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename = 'vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename = 'vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename = 'vendor/venobox/venobox.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename = 'vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename = 'css/style.css') }}" rel="stylesheet">
+
+  
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container-fluid">
+
+      <div class="row justify-content-center">
+        <div class="col-xl-9 d-flex align-items-center justify-content-between">
+          
+          <h1 class="logo"><a href="index.html">Hateful Meme Detector</a></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <a href="index.html" class="logo"><img src="{{ url_for('static', filename = 'img/logo.png') }}" alt="" class="img-fluid"></a>-->
+
+          <nav class="nav-menu d-none d-lg-block">
+            <ul>
+              <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+              <li><a href="#demo">Demo</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#models">Models</a></li>
+
+            </ul>
+          </nav><!-- .nav-menu -->
+
+          <a href="https://github.com/ahujadevansh/hateful-memes-offensive-or-non-offensive" class="get-started-btn scrollto"> <i class="fab fa-github"></i> Github</a>
+        </div>
+      </div>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex flex-column justify-content-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-8">
+          <h1>Hateful Memes </h1><h1>Offensive or Non Offensive</h1>
+          <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Demo Section ======= -->
+    <section id="demo" class="demo">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Demo</h2>
+          <!-- <p></p> -->
+        </div>
+
+        <div class="content">
+          <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="image">Upload Image <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control-file border border-secondary rounded-lg p-1" id="image" name="image" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="image_model">Select Image Model</label>
+                    <select name="image_model" id="image_model" class="form-control">
+                      <option value="RESNET" selected>Resnet</option>
+                      <option value="VGG">VGG</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="text_model">Select Text Model</label>
+                    <select name="text_model" id="text_model" class="form-control">
+                      <option value="CNN" selected>CNN</option>
+                      <option value="BiLSTM">BiLSTM</option>
+                      <option value="Stack_LSTM">Stack LSTM</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success float-right" id="predict">Predict</button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="w-50 mx-auto mb-2" id="image-preview">
+                    <img src="{{ url_for ( 'display_image', filename=filename) }}" alt="Select Image" height='250px' class="image-fluid">
+                  </div>
+                  <div class="text-center" id="prediction">
+                    {% if is_post %}
+                      {% if pred %}
+                        <div class="alert alert-danger" role="alert">
+                          Meme is offensive
+                        </div>
+                      {% else %}
+                        <div class="alert alert-success" role="alert">
+                          Meme is not offensive
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- End Demo Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+          <p></p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p>
+              Hateful Meme Detector is developed by students of Vivekanand Education Society's Institute of Technology Under the Guidance of Dr. Sujata Khedkar.
+            </p>
+            <h3>Team Members</h3>
+            <ul>
+              <li><i class="fas fa-angle-right"></i> <a href="https://www.linkedin.com/in/priya-karsi">Priya Karsi</a></li>
+              <li><i class="fas fa-angle-right"></i><a href="https://www.linkedin.com/in/anshul-bahrani">Anshul Bahrani</a></li>
+              <li><i class="fas fa-angle-right"></i> <a href="https://www.linkedin.com/in/ahuja-devansh/">Devansh Ahuja</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p>
+              Memes can be an instant attack to people’s emotions because of what they depict in the form of humour, sarcasm. They can attack someone’s nationality, religion, sex, etc leading to a strong negativity in the community around us.
+            </p>
+            <p> 
+              Memes are innocent and funny maximum of the time. Nevertheless, whilst mixed photographs with textual content in an ill-acceptable format, it is able to bring about a hateful meme as a consequence spreading hate withinside the social world.
+            </p>
+            <p>
+              The venture of effectively figuring out whether or not a meme is hateful or not no longer has come to be surprisingly difficult and similarly important on this enormous international of the internet.
+            </p>
+            <a href="https://github.com/ahujadevansh/hateful-memes-offensive-or-non-offensive" class="btn-learn-more">Learn More</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Models Section ======= -->
+    <section id="models" class="models">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Models</h2>
+          <p>
+            To satisfy the equation of a meme that has image and text as terms, we aim at working with text and image distinctly. 
+          </p>
+          <p></p>
+            To get the correctness of the model based on both the modalities, the proposed system Combines two image classification models with three different text classification models. In total we experimented with Six different models as follows:
+          </p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">ResNet50 + CNN</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">ResNet50 + BiLSTM</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">ResNet50 + Stack LSTM</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">VGG-16 + CNN</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box"> 
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">VGG-16 + BiLSTM</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <h4><i class="fas fa-arrow-right text-success"></i> <a href="">VGG-16 + Stack LSTM</a></h4>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Models Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container">
+
+        <div class="text-center title">
+          <h3>Accuracies</h3>
+        </div>
+
+        <div class="row counters">
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">59.9</span>
+            <p>ResNet-50 + CNN</p>
+          </div>
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">68.8</span>
+            <p>ResNet-50 + BiLSTM</p>
+          </div>
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">53.3</span>
+            <p>ResNet-50 + Stack LSTM</p>
+          </div>
+        </div>
+        <div class="row counters">
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">52.6</span>
+            <p>VGG-16 + CNN</p>
+          </div>
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">49.8</span>
+            <p>VGG-16 + BiLSTM</p>
+          </div>
+          <div class="col-lg-4 col-6 text-center">
+            <span data-toggle="counter-up">49.3</span>
+            <p>VGG-16 + Stack LSTM</p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>Hateful Meme Detector</h3>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename = 'vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/jquery.easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/counterup/counterup.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/venobox/venobox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
+  <script>
+    $(function () {
+      $("#image").change(function () {
+          $("#image-preview").html("");
+          var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.png)$/;
+          if (regex.test($(this).val().toLowerCase())) {      
+            if (typeof (FileReader) != "undefined") {
+                $("#prediction").hide();
+                $("#image-preview").append("<img height='250px' class='image-fluid'/>");
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#image-preview img").attr("src", e.target.result);
+                }
+                reader.readAsDataURL($(this)[0].files[0]);
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+          } else {
+              alert("Please upload a valid image file.");
+          }
+      });
+    });
+  </script>
+</body>
+
+</html>
