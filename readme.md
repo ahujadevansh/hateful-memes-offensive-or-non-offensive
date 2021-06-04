@@ -1,3 +1,12 @@
+Create Virtual environment
+Install from requirements file
 
+Download: https://tesseract-ocr.github.io/tessdoc/Home.html#binaries
 
-https://tesseract-ocr.github.io/tessdoc/Home.html#binaries
+Replace "pytesseract.pytesseract.tesseract_cmd" to path where tesseract-ocr is installed
+
+Download models by fillling https://forms.gle/qt9sShWhXPHZxU4JA
+
+place the models inside models folder
+
+Run views.py

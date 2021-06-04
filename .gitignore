@@ -1,2 +1,7 @@
 venv/
 __pycache__/
+*.h5
+*.jpg
+*.png
+*.gif
+*.jpeg
